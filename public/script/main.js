@@ -1,2 +1,3 @@
-"use strict";
-console.log('Navis Code 💚💚');
+import { Account } from "./accounts.js";
+var account = new Account();
+console.log(account);

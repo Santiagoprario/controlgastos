@@ -39,5 +39,45 @@ export class Account implements Account {
         return true;
     }
 
+    deleteEntryById(id: number): boolean {
+        const entriesFiltered = this.entries.filter((entry) => entry.id !== id);
+        this.entries = entriesFiltered;
+        this.updateBalance();
+        return true;
+    }
+
+    getBalance(): number {
+        return this.balance;
+    }
+
+    getEntries(): Entry[] {
+        return this.entries
+    }
+
+    private updateBalance():void {
+        const balance = this.entries.reduce((previousValue, currentEntry) => {
+            return previousValue + this.convertAmountByCategory(currentEntry)
+        },0)
+        this.balance = balance
+    }
+    
+    private convertAmountByCategory(entry: Entry): number {
+        const {category , amount}  = entry;
+        if(category === CategoryEnum.expense) {
+            return -amount;
+        }
+        return amount;
+    }
+}
+
+export class Entry implements Entry{
+    public id: number;
+    constructor(
+        public concept: string,
+        public amount: number,
+        public category: CategoryEnum 
+    ) {
+        this.id = getRandomId(); 
+    }
 }
 
